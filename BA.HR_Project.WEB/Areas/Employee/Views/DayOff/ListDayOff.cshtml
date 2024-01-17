@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "ListDayOff";
+    Layout = "_LayoutEmployeeSide";
+}
+
+@model List<DayOffViewModel>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+<div>
+    <!-- İzin türlerini ayıran butonlar -->
+                <button class="btn btn-success" id="showDayOffApprovedButton">Approved Day Offs</button>
+                <button class="btn btn-warning" id="showDayOffWaitingButton">Waiting Day Offs</button>
+                <button class="btn btn-danger" id="showDayOffDeniedButton">Denied Day Offs</button>
+</div>
+<br />
+
+<!-- Tüm izinleri listeleyecek tablo -->
+<table class="table text-light">
+    <thead>
+        <tr>
+            <th>Day Off Type</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Request Date</th>
+            <th>Day Count</th>
+            <th>Confirm Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dayOff in Model)
+        {
+            <tr>
+                <td>@dayOff.DayOffType.ToString()</td>
+                <td>@dayOff.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@(dayOff.FinishDate.HasValue ? dayOff.FinishDate.Value.ToString("yyyy-MM-dd") : string.Empty)</td>
+                <td>@dayOff.RequestDate</td>
+                <td>@dayOff.DayCount</td>
+                <td>@dayOff.ConfirmStatus.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Waiting Day Offs -->
+            <div id="dayOffWaitingPopup" class="modalC">
+                <div class="modal-contentC">
+                    <span class="closeC" onclick="closePopupWaiting()">&times;</span>
+
+                    <h2 class="text-warning text-center"><u>Waiting Day Offs</u></h2>
+<table class="table text-light">
+    <thead>
+        <tr>
+            <th>Day Off Type</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Request Date</th>
+            <th>Day Count</th>
+            <th>Confirm Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dayOff in ViewBag.WaitingDayOffs)
+        {
+            <tr>
+                <td>@dayOff.DayOffType.ToString()</td>
+                <td>@dayOff.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.FinishDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.RequestDate</td>
+                <td>@dayOff.DayCount</td>
+                <td>@dayOff.ConfirmStatus.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+                </div>
+            </div>
+<!-- Approved Day Offs -->
+            <div id="dayOffApprovedPopup" class="modalC">
+                <div class="modal-contentC">
+                    <span class="closeC" onclick="closePopupApproved()">&times;</span>
+
+                    <h2 class="text-success text-center "><u>Approved Day Offs</u></h2>
+
+<table class="table text-light">
+    <thead>
+        <tr>
+            <th>Day Off Type</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Request Date</th>
+            <th>Day Count</th>
+            <th>Confirm Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dayOff in ViewBag.ApprovedDayOffs)
+        {
+            <tr>
+                <td>@dayOff.DayOffType.ToString()</td>
+                <td>@dayOff.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.FinishDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.RequestDate</td>
+                <td>@dayOff.DayCount</td>
+                <td>@dayOff.ConfirmStatus.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+                </div>
+            </div>
+<!-- Denied Day Offs -->
+            <div id="dayOffDeniedPopup" class="modalC">
+                <div class="modal-contentC">
+                    <span class="closeC" onclick="closePopupDenied()">&times;</span>
+
+                    <h2 class=" text-center text-danger"><u>Denied Day Offs</u></h2>
+
+<table class="table text-light">
+    <thead>
+        <tr>
+            <th>Day Off Type</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Request Date</th>
+            <th>Day Count</th>
+            <th>Confirm Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dayOff in ViewBag.DeniedDayOffs)
+        {
+            <tr>
+                <td>@dayOff.DayOffType.ToString()</td>
+                <td>@dayOff.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.FinishDate.ToString("yyyy-MM-dd")</td>
+                <td>@dayOff.RequestDate</td>
+                <td>@dayOff.DayCount</td>
+                <td>@dayOff.ConfirmStatus.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<script>
+    // Waiting Advances Popupı
+    document.getElementById('showDayOffWaitingButton').onclick = function () {
+        openPopupWaiting();
+    };
+    function openPopupWaiting() {
+        document.getElementById('dayOffWaitingPopup').style.display = 'block';
+    }
+    function closePopupWaiting() {
+        document.getElementById('dayOffWaitingPopup').style.display = 'none';
+    }
+
+    // Approved Advances Popupı
+    document.getElementById('showDayOffApprovedButton').onclick = function () {
+        openPopupApproved();
+    };
+    function openPopupApproved() {
+        document.getElementById('dayOffApprovedPopup').style.display = 'block';
+    }
+    function closePopupApproved() {
+        document.getElementById('dayOffApprovedPopup').style.display = 'none';
+    }
+
+    // Denied Advances Popupı
+    document.getElementById('showDayOffDeniedButton').onclick = function () {
+        openPopupDenied();
+    };
+    function openPopupDenied() {
+        document.getElementById('dayOffDeniedPopup').style.display = 'block';
+    }
+    function closePopupDenied() {
+        document.getElementById('dayOffDeniedPopup').style.display = 'none';
+    }
+
+</script>

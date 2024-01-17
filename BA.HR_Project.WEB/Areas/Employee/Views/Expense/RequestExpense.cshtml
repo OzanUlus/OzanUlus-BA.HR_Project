@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "_LayoutEmployeeSide";
+}
+@using BA.HR_Project.Domain.Entities
+
+@model ExpenseViewModel
+
+
+@if (ViewBag.ErrorMassages != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.ErrorMassages </p>
+    </div>
+}
+
+@if (ViewBag.FileError != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.FileError </p>
+    </div>
+}
+
+
+<form asp-area="Employee" asp-controller="Expense" asp-action="RequestExpense" method="post" enctype="multipart/form-data">
+    @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+
+
+    <div class="form-group">
+        <label class="custom-select" asp-for="ExpenseType">Expense Type</label>
+        <select asp-for="ExpenseTypeId" class="form-control custom-select">
+            <option value="">-- Select Expense Type --</option>
+            @if (ViewBag.ExpenseTypes != null)
+            {
+
+
+                foreach (var name in ViewBag.ExpenseTypes)
+                {
+
+                    <option value="@name">@name.Split("/")[0]</option>
+                }
+
+
+            }
+        </select>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <label class="custom-select" asp-for="Currency">Currency</label>
+        <select asp-for="Currency" class="form-control custom-select">
+            <option value="@((int)Currency.USD)">USD</option>
+            <option value="@((int)Currency.EUR)">EURO</option>
+            <option value="@((int)Currency.TRY)">TL</option>
+        </select>
+        <span asp-validation-for="Currency" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <label class="custom-select" asp-for="RequestPrice">Request Price</label>
+        <input asp-for="RequestPrice" class="form-control custom-select" type="number" step="0,01" placeholder="Request Price"></input>
+        <span asp-validation-for="RequestPrice" class="text-danger"></span>
+
+    </div>
+
+    <br>
+
+    <div>
+        <input accept=".jpeg,.jpg,.png,.pdf" type="file" asp-for="File" class="form-control-file text-light custom-select" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn btn-warning">Request Expense</button>
+
+
+</form>

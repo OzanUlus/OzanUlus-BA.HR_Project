@@ -9,12 +9,10 @@ using System.Threading.Tasks;
 
 namespace BA.HR_Project.Application.Mapping
 {
-    public class GenaralMapper:Profile
+    public class GenaralMapper : Profile
     {
         public GenaralMapper()
         {
-            CreateMap<AdressDto, Adress>()
-           .ReverseMap();
             CreateMap<AppRoleDto, AppRole>()
            .ReverseMap();
             CreateMap<AppUserDto, AppUser>()
@@ -31,8 +29,40 @@ namespace BA.HR_Project.Application.Mapping
            .ReverseMap();
             CreateMap<ListDetailInfoDto, AppUser>()
            .ReverseMap();
+            CreateMap<AppUser, AppUserUpdateDto>()
+           .ReverseMap();
+            CreateMap<Expense, ExpenseDto>()
+                .ReverseMap();
+            CreateMap<ExpenseType, ExpenseTypeDto>()
+                .ReverseMap();
+
+            CreateMap<AppUser, AppUserUpdateForEmployeeDto>().ReverseMap();
+
+            CreateMap<AppUser, AppUserUpdateForAdminDto>().ReverseMap();
+
+            CreateMap<AppUser, AppUser>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<AppUser, AppUserUpdatePasswordDto>()
+                .ReverseMap();
+
+            
 
 
+
+
+
+            CreateMap<DayOff, DayOffDto>() .ReverseMap();
+            CreateMap<AdvanceDto,Advance>()
+            .ReverseMap();
+            CreateMap<ExpenseDto,Expense>() 
+                .ReverseMap();
+            CreateMap<ListManagerDto,AppUser>() 
+                .ReverseMap();
+            CreateMap<UpdateManagerDto, AppUser>()
+                .ReverseMap();
+
+           
         }
     }
 }

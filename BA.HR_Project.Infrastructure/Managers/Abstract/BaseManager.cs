@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BA.HR_Project.Application.DTOs;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace BA.HR_Project.Infrasturucture.Managers.Abstract
 {
@@ -29,8 +30,8 @@ namespace BA.HR_Project.Infrasturucture.Managers.Abstract
             try
             {
                 var entity = _mapper.Map<T>(dto);
-                _uow.GetRepository<T>().DeleteAsync(entity);
-                _uow.SaveChanges();
+                await _uow.GetRepository<T>().DeleteAsync(entity);
+                await _uow.SaveChanges();
                 return Response.Success("Deletion was successful.");
             }
             catch
@@ -38,6 +39,26 @@ namespace BA.HR_Project.Infrasturucture.Managers.Abstract
                 return Response.Failure("Deletion was unsuccessful");
             }
         }
+
+        public async Task<Response<TDto>> GetByIdAsync(string Id)
+        {
+            try
+            {
+                var data = await _uow.GetRepository<T>().GetByIdAsync(Id);
+                if (data != null)
+                {
+                    var dto = _mapper.Map<TDto>(data);
+                    return Response<TDto>.Success(dto, "Get action is successfull");
+                }
+                return Response<TDto>.Failure("Get action is unsuccessfull");
+            }
+            catch
+            {
+                return Response<TDto>.Failure("Get action is unsuccessfull");
+            }
+  
+        }
+
 
         public async Task<Response<TDto>> Get(bool asNoTracking = true, Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includeProperties)
         {
@@ -58,7 +79,7 @@ namespace BA.HR_Project.Infrasturucture.Managers.Abstract
         {
             try
             {
-                var entities = _uow.GetRepository<T>().GetAllAsync(true);
+                var entities = await _uow.GetRepository<T>().GetAllAsync(true);
                 var dtos = _mapper.Map<List<TDto>>(entities);
                 return Response<IEnumerable<TDto>>.Success(dtos, "Acquirement was successful.");
             }
@@ -68,13 +89,15 @@ namespace BA.HR_Project.Infrasturucture.Managers.Abstract
             }
         }
 
+
+
         public async Task<Response> Insert(TDto dto)
         {
             try
             {
                 var entity = _mapper.Map<T>(dto);
-                _uow.GetRepository<T>().InsertAsync(entity);
-                _uow.SaveChanges();
+                await _uow.GetRepository<T>().InsertAsync(entity);
+                await _uow.SaveChanges();
                 return Response.Success("Insertion was successful.");
             }
             catch
@@ -88,14 +111,21 @@ namespace BA.HR_Project.Infrasturucture.Managers.Abstract
             try
             {
                 var entity = _mapper.Map<T>(dto);
-                _uow.GetRepository<T>().UpdateAsync(entity);
-                _uow.SaveChanges();
-                return Response.Success("Updating was successful.");
+                //await _uow.GetRepository<T>().UpdateAsync(entity);
+
+                
+                _uow.GetRepository<T>().Update(entity);
+                await _uow.SaveChanges();
+                 return Response.Success("Updating was successful.");
             }
             catch
             {
                 return Response.Failure("Updating was unsuccessful");
             }
         }
+
+      
+
+
     }
 }

@@ -10,18 +10,10 @@ namespace BA.HR_Project.Domain.Entities
 {
     public class AppUser:IdentityUser<string> , IEntity
     {
-        private string? _identityNo;
-        private string? _passportNo;
-
-
         public AppUser()
         {
-
-        }
-
-        public AppUser(bool isTurkishCitizen)
-        {
-            IsTurkishCitizen = isTurkishCitizen;
+            Advances = new();
+            DayOffs = new();
         }
         public string Name { get; set; }
         public string? SecondName { get; set; }
@@ -32,6 +24,7 @@ namespace BA.HR_Project.Domain.Entities
         public string? BirthPlace { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public string Adress { get; set; }
         public int? Salary { get; set; }
         public bool IsActive
         {
@@ -41,43 +34,18 @@ namespace BA.HR_Project.Domain.Entities
             }
         }
         public bool IsTurkishCitizen { get; set; }
-        public string? IdentityNumber
-        {
-            get
-            {
-                return IsTurkishCitizen ? _identityNo : null;
-            }
-            set
-            {
-                if (IsTurkishCitizen)
-                {
-                    _identityNo = value;
-                }
-            }
-        }
-        public string? PassportNumber
-        {
-            get
-            {
-                return IsTurkishCitizen ? null : _passportNo;
-            }
-            set
-            {
-                if (!IsTurkishCitizen)
-                {
-                    _passportNo = value;
-                }
-            }
-        }
+        public string? IdentityNumber { get; set; }
+
+        public string? PassportNumber { get; set; }
         public string CompanyId { get; set; }
         public string DepartmentId { get; set; }
-        public string AdressId { get; set; }
+        public IEnumerable<Expense> Expenses { get; set; }
 
         #region NavProp
         public Company Company { get; set; }
         public Department Department { get; set; }
-        public Adress Adress { get; set; }
-
+        public List<Advance> Advances { get; set; }
+        public List<DayOff> DayOffs { get; set; }
         #endregion
 
 

@@ -1,0 +1,173 @@
+﻿@model List<CompanyViewModel>
+
+<table class="table text-light" id="WaitingTable">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Title</th>
+            <th>Name</th>
+            <th>Mail</th>
+            <th>Phone</th>
+            <th>EmployeCount</th>
+            <th>Activity</th>
+            <th>Process</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td class="text-center align-middle">
+                    <img src="@company.LogoPath" style="max-width: 100px; max-height: 100px;" />
+                </td>
+                <td class="text-center align-middle">@company.CompanyTitleEnum.ToString()</td>
+                <td class="text-center align-middle">@company.Name</td>
+                <td class="text-center align-middle">@company.Mail</td>
+                <td class="text-center align-middle">@company.Phone</td>
+                <td class="text-center align-middle">@company.EmployeeCount.ToString()</td>
+                <td class="text-center align-middle">@company.ActivtyEnum.ToString()</td>
+
+                <td class="text-center align-middle">
+                    <div style="display:flex; justify-content: center;">
+                        <button id="showCompanyDetail@company.Id" class="btn btn-success showCompanyDetail" data-id="@company.Id" style="margin:5px">Company Detail</button>
+                        <a asp-action="UpdateCompany" asp-controller="Company" asp-route-id="@company.Id" class="btn btn-success" style="margin:5px">Company Update</a>
+                        <a asp-area="Manager" asp-action="AddManager" asp-controller="Manager" asp-route-id="@company.Id" class="btn btn-success" style="margin:5px">Asign Company Manager</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Popup içeriği -->
+@* Company Detail Pupup *@
+<div id="companyDetailPopup" class="modalC container">
+    <div class="modal-contentC row">
+        <span class="closeC" style="margin-right:0px;" onclick="closePopupWaiting()">&times;</span>
+
+        <h2 class="text-warning text-center"><u>Company Detail</u></h2>
+
+        <div class="col-3">
+            <label class="text-light">Title: </label><br />
+            <label class="text-light">Name: </label><br />
+            <label class="text-light">Phone: </label><br />
+            <label class="text-light">Address: </label><br />
+            <label class="text-light">Mail: </label><br />
+            <label class="text-light">Employee Count: </label><br />
+            <label class="text-light">Mersis No: </label><br />
+            <label class="text-light">Tax No: </label><br />
+            <label class="text-light">Tax Office: </label><br />
+            <label class="text-light">Start Up Date: </label><br />
+            <label class="text-light">Contract Start Date: </label><br />
+            <label class="text-light">Contract End Date: </label><br />
+            <label class="text-light">Activity: </label><br />
+        </div>
+
+        <div class="col-9">
+            <span id="companyDetailTitle"></span><br />
+            <span id="companyDetailName"></span><br />
+            <span id="companyDetailPhone"></span> <br />
+            <span id="companyDetailAdress"></span> <br />
+            <span id="companyDetailMail"></span> <br />
+            <span id="companyDetailEmployeeCount"></span> <br />
+            <span id="companyDetailMersisNo"></span> <br />
+            <span id="companyDetailTaxNo"></span> <br />
+            <span id="companyDetailTaxOffice"></span> <br />
+            <span id="companyDetailStartupDate"></span> <br />
+            <span id="companyDetailContractStartDate"></span> <br />
+            <span id="companyDetailContractEndDate"></span> <br />
+            <span id="companyDetailActivtyEnum"></span> <br />
+        </div>
+    </div>
+</div>
+
+<script>
+    // Detail Butonları için ilgili fonksiyonlarının dinamik olarak oluşturulması
+    var showCompanyDetailButtons = document.getElementsByClassName('showCompanyDetail');
+    for (var i = 0; i < showCompanyDetailButtons.length; i++) {
+        showCompanyDetailButtons[i].onclick = function () {
+            openPopupWaiting();
+
+            // Company Id'sinin html blogundan alınması
+            var companyId = this.getAttribute('data-id');
+
+            // Kullanılan MOdelin serilize edilmesi
+            var companyData = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');
+
+            // Seçilen şirketin bulunması
+            var selectedCompany = companyData.find(function (company) {
+                return company.Id === companyId;
+            });
+
+            if (selectedCompany) {
+                // Şirket bilgilerini modal içine yerleştirme
+                document.getElementById('companyDetailTitle').innerText = getEnumText(selectedCompany.CompanyTitleEnum, 'CompanyTitleEnum');
+                document.getElementById('companyDetailName').innerText = selectedCompany.Name;
+                document.getElementById('companyDetailPhone').innerText = selectedCompany.Phone;
+                document.getElementById('companyDetailAdress').innerText = selectedCompany.Adress;
+                document.getElementById('companyDetailMail').innerText = selectedCompany.Mail;
+                document.getElementById('companyDetailEmployeeCount').innerText = selectedCompany.EmployeeCount;
+                document.getElementById('companyDetailMersisNo').innerText = selectedCompany.MersisNo;
+                document.getElementById('companyDetailTaxNo').innerText = selectedCompany.TaxNo;
+                document.getElementById('companyDetailTaxOffice').innerText = selectedCompany.TaxOffice;
+                document.getElementById('companyDetailStartupDate').innerText = selectedCompany.StartUpDate;
+                document.getElementById('companyDetailContractStartDate').innerText = selectedCompany.ContractStartDate;
+                document.getElementById('companyDetailContractEndDate').innerText = selectedCompany.ContractEndDate;
+                document.getElementById('companyDetailActivtyEnum').innerText = getEnumText(selectedCompany.ActivtyEnum, 'ActivtyEnum');
+            }
+        };
+    }
+
+    function openPopupWaiting() {
+        clearPopupDetails();
+        document.getElementById('companyDetailPopup').style.display = 'block';
+    }
+
+    function clearPopupDetails() {
+        document.getElementById('companyDetailTitle').innerText = '';
+        document.getElementById('companyDetailName').innerText = '';
+        document.getElementById('companyDetailPhone').innerText = '';
+        document.getElementById('companyDetailAdress').innerText = '';
+        document.getElementById('companyDetailMail').innerText = '';
+        document.getElementById('companyDetailEmployeeCount').innerText = '';
+        document.getElementById('companyDetailMersisNo').innerText = '';
+        document.getElementById('companyDetailTaxNo').innerText = '';
+        document.getElementById('companyDetailTaxOffice').innerText = '';
+        document.getElementById('companyDetailStartupDate').innerText = '';
+        document.getElementById('companyDetailContractStartDate').innerText = '';
+        document.getElementById('companyDetailContractEndDate').innerText = '';
+        document.getElementById('companyDetailActivtyEnum').innerText = '';
+    }
+
+    function closePopupWaiting() {
+        clearPopupDetails();
+        document.getElementById('companyDetailPopup').style.display = 'none';
+    }
+
+    function getEnumText(enumValue, enumType) {
+        switch (enumType) {
+            case 'CompanyTitleEnum':
+                switch (enumValue) {
+                    case 1:
+                        return 'LTD';
+                    case 2:
+                        return 'AS';
+                    case 3:
+                        return 'KOOP';
+                    default:
+                        return 'Unknown';
+                }
+            case 'ActivtyEnum':
+                switch (enumValue) {
+                    case 0:
+                        return 'Pasive';
+                    case 1:
+                        return 'Active';
+                    default:
+                        return 'Unknown';
+                }
+            default:
+                return 'Unknown';
+        }
+    }
+</script>

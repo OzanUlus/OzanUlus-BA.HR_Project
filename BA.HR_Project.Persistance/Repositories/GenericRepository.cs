@@ -24,35 +24,41 @@ namespace BA.HR_Project.Persistance.Repositories
 
         public async Task DeleteAsync(T entity)
         {
-            await Task.Run(() => _dbSet.Remove(entity)) ;
+            await Task.Run(() => _dbSet.Remove(entity));
+        }
+
+        public async Task<T> GetByIdAsync(string Id)
+        {
+            var data = await _dbSet.AsNoTracking().Where(x => x.Id == Id).FirstOrDefaultAsync();
+            return data;
         }
 
         public async Task<List<T>> GetAllAsync(bool asNoTracking = true, Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbSet;
-            if (filter != null) 
+            if (filter != null)
             {
-              query = query.Where(filter);
-            
+                query = query.Where(filter);
+
             }
-            if (includeProperties.Any()) 
+            if (includeProperties.Any())
             {
-              foreach (var property in includeProperties) 
+                foreach (var property in includeProperties)
                 {
-                  query = query.Include(property);
-                
+                    query = query.Include(property);
+
                 }
-            
-            
+
+
             }
-            if (asNoTracking) 
+            if (asNoTracking)
             {
-              query= query.AsNoTracking();
-            
+                query = query.AsNoTracking();
+
             }
             var rslt = await query.ToListAsync();
             return rslt;
-            
+
         }
 
         public async Task<T> GetAsync(bool asNoTracking = true, Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[] includeProperties)
@@ -81,7 +87,7 @@ namespace BA.HR_Project.Persistance.Repositories
                 query = query.AsNoTracking();
 
             }
-            var result = await _dbSet.SingleAsync();
+            var result = await _dbSet.SingleOrDefaultAsync();
             return result;
         }
 
@@ -93,6 +99,12 @@ namespace BA.HR_Project.Persistance.Repositories
         public async Task UpdateAsync(T entity)
         {
             await Task.Run(() => _dbSet.Update(entity));
+
+        }
+
+        public void Update(T entity)
+        {
+            _dbSet.Update(entity);
         }
     }
 }

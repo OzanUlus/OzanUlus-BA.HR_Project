@@ -9,13 +9,13 @@ namespace BA.HR_Project.Application.DTOs
 {
     public class AppUserDto : IDTO
     {
-        private string? _identityNo;
-        private string? _passportNo;
-
+        public string Id { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string? SecondName { get; set; }
         public string Surname { get; set; }
         public string? SecondSurname { get; set; }
+        public string PhoneNumber { get; set; }
         public string? PhotoPath { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? BirthPlace { get; set; }
@@ -28,15 +28,16 @@ namespace BA.HR_Project.Application.DTOs
         public string? IdentityNumber { get; set; }
 
         public string? PassportNumber { get; set; }
+        public string Adress { get; set; }
 
         public string CompanyId { get; set; }
-        public string DepartmentId { get; set; }
-        public string AdressId { get; set; }
+        public string? DepartmentId { get; set; }
 
         #region NavProp
         public CompanyDto Company { get; set; }
         public DepartmentDto Department { get; set; }
-        public AdressDto Adress { get; set; }
+        public List<AdvanceDto> Advances { get; set; }
+        public List<DayOffDto> DayOffs { get; set; }
 
         #endregion
 

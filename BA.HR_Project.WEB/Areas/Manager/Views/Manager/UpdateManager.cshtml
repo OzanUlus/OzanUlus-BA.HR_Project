@@ -1,0 +1,157 @@
+﻿
+@if (ViewBag.ErrorMessages != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.ErrorMessages</p>
+    </div>
+}
+
+@model BA.HR_Project.WEB.Areas.Manager.Models.UpdateManagerViewModelcs
+
+
+
+
+<div class="container">
+
+
+    <form asp-controller="Manager" asp-action="UpdateManager" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control custom-select" type="text" placeholder="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="SecondName">SecondName</label>
+            <input asp-for="SecondName" class="form-control custom-select" type="text" placeholder="Second Name" />
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="Surname">Surname</label>
+            <input asp-for="Surname" class="form-control custom-select" type="text" placeholder="Surname" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label text-warning" asp-for="SecondSurname">Second Surname</label>
+            <input asp-for="SecondSurname" class="form-control custom-select" type="text" placeholder="Second Surname" />
+
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="PhotoPath" class="col-form-label" style="color:#FD8D00">Photo:</label>
+
+            <div class="mb-3">
+                <div>
+                    <img src="@Model.PhotoPath" alt="Current Photo" class="img-thumbnail" style="max-width: 150px; max-height: 150px;" />
+                </div>
+
+                <br />
+
+                <div>
+                    <input accept=".jpeg,.jpg,.png" type="file" asp-for="Photo" class="form-control-file text-light" />
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="PhoneNumber">Phone Number</label>
+            <input asp-for="PhoneNumber" class="form-control custom-select" type="text" placeholder="Phone Number" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="BirthDate">Birth Date</label>
+            <input asp-for="BirthDate" class="form-control custom-select" type="date" placeholder="Birth Date" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="BirthPlace">Birth Place</label>
+            <input asp-for="BirthPlace" class="form-control custom-select" type="text" placeholder="Birth Place" />
+            <span asp-validation-for="BirthPlace" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="StartDate">Start Date</label>
+            <input asp-for="StartDate" class="form-control custom-select" type="date" placeholder="Start Date" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="EndDate">End Daate</label>
+            <input asp-for="EndDate" class="form-control custom-select" type="date" placeholder="End Data" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="Salary">Salary</label>
+            <input asp-for="Salary" class="form-control custom-select" type="number" placeholder="Salary" />
+            <span asp-validation-for="Salary" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="IsActive">WorkingStatus</label>
+            <input asp-for="IsActive" type="checkbox" placeholder="WorkingStatus" />
+            <span asp-validation-for="IsActive" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="IsTurkishCitizen">IsTurkishCitizen</label>
+            <input asp-for="IsTurkishCitizen" type="checkbox" placeholder="IsTurkishCitizen" />
+            <span asp-validation-for="IsTurkishCitizen" class="text-danger"></span>
+        </div>
+       
+            
+                <div class="mb-3">
+                    <label class="col-form-label text-warning" asp-for="IdentityNumber">Identity Number</label>
+                    <input asp-for="IdentityNumber" class="form-control custom-select" type="text" placeholder="Identity Number" />
+                    <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                </div>
+            
+            
+            
+                <div class="mb-3">
+                    <label class="col-form-label text-warning" asp-for="PassportNumber">Passport Number</label>
+                    <input asp-for="PassportNumber" class="form-control custom-select" type="text" placeholder="Passport Number" />
+                    <span asp-validation-for="PassportNumber" class="text-danger"></span>
+                </div>
+
+            
+
+        
+       
+        <div class="mb-3">
+            <label class="col-form-label text-warning" asp-for="Adress">Adress</label>
+            <input asp-for="Adress" class="form-control custom-select" type="text" placeholder="Adress" />
+            <span asp-validation-for="Adress" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="custom-select" asp-for="CompanyId">Company Name</label>
+            <select asp-for="CompanyId" class="form-control custom-select">
+                @* <option value="@Model.CompanyId">@ViewBag.RelatedCompanyName</option> *@
+                @if (ViewBag.CompanyNames != null)
+                {
+
+
+                    foreach (var name in ViewBag.CompanyNames)
+                    {
+
+                        <option value="@name">@name.Split("/")[0]</option>
+                    }
+
+
+                }
+            </select>
+        </div>
+
+
+
+        <button type="submit" class="btn-warning">Update</button>
+    </form>
+
+
+</div>

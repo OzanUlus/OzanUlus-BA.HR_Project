@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/InsanKaynaklarıProjesi.WEB.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/mexant/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="~/mexant/assets/css/templatemo-574-mexant.css">
+    <link rel="stylesheet" href="~/mexant/assets/css/owl.css">
+    <link rel="stylesheet" href="~/mexant/assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <style>
+        body {
+            padding-top: 115px;
+        }
+    </style>
+</head>
+<!--
+
+</head>
+<body>
+    <!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+
+
+                    <!-- ***** Logo Start ***** -->
+                    <a asp-controller="Home" asp-action="Index" class="logo">
+                        <img src="~/mexant/assets/images/logo.png" alt="" width="60" height="60">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+
+                    <ul class="nav">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                            <li class="scroll-to-section"><a asp-area="" asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                            }
+
+
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Employee"))
+                            {
+                            <li class="scroll-to-section" style="margin-top:9px"><a asp-area="" asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+                            <li class="nav-item dropdown customNavbar">
+                                <a class="nav-link dropdown-toggle customNavbar" href="#" id="operationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Operations </a>
+                                <ul class="dropdown-menu dropboxMenus" aria-labelledby="operationsDropdown">
+
+                                    <li class="scroll-to-section"><a class="customNavbar" asp-area="Employee" asp-controller="Employee" asp-action="MyManager">My Manager</a></li>
+
+                                    <li class="nav-item dropdown customNavbar">
+                                        <a class="nav-link dropdown-toggle customNavbar" href="#" id="advanceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Advance </a>
+                                        <ul class="dropdown-menu dropboxMenus" aria-labelledby="advanceDropdown">
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Advance" asp-action="DemandAdvance">DemandAdvance</a></li>
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Advance" asp-action="ListAdvance">ListAdvance</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item dropdown customNavbar">
+                                        <a class="nav-link dropdown-toggle customNavbar" href="#" id="dayOffDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> DayOff </a>
+                                        <ul class="dropdown-menu dropboxMenus" aria-labelledby="dayOffDropdown">
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="DayOff" asp-action="DemandDayOff">DemandDayOff</a></li>
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="DayOff" asp-action="ListDayOff">ListDayOffs</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item dropdown customNavbar">
+                                        <a class="nav-link dropdown-toggle customNavbar" href="#" id="expenseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Expense </a>
+                                        <ul class="dropdown-menu dropboxMenus" aria-labelledby="expenseDropdown">
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Expense" asp-action="RequestExpense">RequestExpense</a></li>
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Expense" asp-action="ExpenseList">ExpenseList</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item dropdown customNavbar">
+                                        <a class="nav-link dropdown-toggle customNavbar" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Profile </a>
+                                        <ul class="dropdown-menu dropboxMenus" aria-labelledby="profileDropdown">
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Employee" asp-action="Index">Profile</a></li>
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Employee" asp-action="Detail">Detail Profile</a></li>
+                                            <li class="scroll-to-section"> <a class="customNavbar" asp-area="Employee" asp-controller="Employee" asp-action="Update">Update Profile</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            }
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (User.IsInRole("Admin"))
+                                {
+                                <li class="nav-item dropdown customNavbar">
+                                    <a class="nav-link dropdown-toggle customNavbar" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Go Admin Side </a>
+                                    <ul class="dropdown-menu dropboxMenus" aria-labelledby="navbarDropdown">
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminHome" asp-action="Index">Profile</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminEmployee" asp-action="AddEmployee">Add Employee</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminEmployee" asp-action="ListEmployee">List Employee</a></li>
+
+
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminEmployee" asp-action="ListAllAdvances">Advance Demands</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminEmployee" asp-action="ListAllExpenses">Expense Demands</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Admin" asp-controller="AdminEmployee" asp-action="ListAllDayOffs">Day Off Demands</a></li>
+
+                                    </ul>
+                                </li>
+                                }
+
+                                @if (User.IsInRole("Manager"))
+                                {
+                                <li class="nav-item dropdown customNavbar">
+                                    <a class="nav-link dropdown-toggle customNavbar" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Go Manager Side </a>
+                                    <ul class="dropdown-menu dropboxMenus" aria-labelledby="navbarDropdown">
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Manager" asp-controller="Manager" asp-action="AddManager">Add Manager</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Manager" asp-controller="Manager" asp-action="ListManager">List Manager</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Manager" asp-controller="Company" asp-action="AddCompany">Add Company</a></li>
+                                        <li class="scroll-to-section"> <a class="customNavbar" asp-area="Manager" asp-controller="Company" asp-action="ListCompany">List Company</a></li>
+
+                                    </ul>
+                                </li>
+                                }
+
+                            <li class="nav-item"><a class="nav-link text-light" style="background-color:transparent;">💻 @User.Identity.Name.Split('.')[0]</a></li>
+                            <li class="nav-item"><a asp-area="" asp-controller="Account" asp-action="LogOut" class="nav-link text-light">SignOut</a></li>
+                            }
+
+                            
+
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                            <li class="scroll-to-section"><a asp-area="" asp-controller="Account" asp-action="LogIn">SignIn</a></li>
+                            }
+
+
+                    </ul>
+
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+<!-- ***** Main Banner Area Start ***** -->
+
+<div class="swiper-container" id="top">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <div class="slide-inner" style="background-image:url('mexant/assets/images/slide-01.jpg')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="header-text">
+                                <br>
+                                <br>
+                                <br>
+                                <h2>What <em>is<br></em>HUMAN RESORCE <em>planning?</em></h2>
+                                <div class="div-dec"></div>
+                                <p> HELLO! Welcome to our HUMAN RESOURCE website. We offer career planing, education opportunities and more... </p>
+                                <p>This website created to plan human resource period for companies. You can mannage worker performance, education plans and more...When you log in to the website, you can access worker information and you can update about worker information.</p>
+                                <p>We continuing upgrade website...</p>
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                    <div class="buttons">
+                                        <div class="green-button">
+                                            <a href="Account/Login" style="background-color:#FF6910">SIGN IN</a>
+                                        </div>
+                                            @*<div class="orange-button">
+                                    <a href="#">REGISTER</a>
+                                    </div>*@
+                                    </div>
+                                    }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="slide-inner" style="background-image:url('mexant/assets/images/slide-02.jpg')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="header-text">
+                                <h2><em>What</em> We Offer  <br> for you <em>on This</em> Website</h2>
+                                <div class="div-dec"></div>
+                                <p>You can discover website when you register and log in on website. Furthermore, you can mannage your career plans.</p>
+                                <div class="buttons">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+    </div>
+<div class="swiper-button-next swiper-button-white"></div>
+<div class="swiper-button-prev swiper-button-white"></div>
+  </div>
+
+
+<div class="container" style="background-color: rgb(24,29,48) !important;">
+
+    <main role="main">
+            @RenderBody()
+    </main>
+</div>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>
+                    Copyright © 2023 ANK-14 Group-2 All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<!-- Bootstrap core JavaScript -->
+<script src="~/mexant/vendor/jquery/jquery.min.js"></script>
+<script src="~/mexant/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/mexant/assets/js/isotope.min.js"></script>
+<script src="~/mexant/assets/js/owl-carousel.js"></script>
+
+<script src="~/mexant/assets/js/tabs.js"></script>
+<script src="~/mexant/assets/js/swiper.js"></script>
+<script src="~/mexant/assets/js/custom.js"></script>
+<script>
+    var interleaveOffset = 0.5;
+
+    var swiperOptions = {
+        loop: true,
+        speed: 1000,
+        grabCursor: true,
+        watchSlidesProgress: true,
+        mousewheelControl: true,
+        keyboardControl: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        },
+        on: {
+            progress: function () {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    var slideProgress = swiper.slides[i].progress;
+                    var innerOffset = swiper.width * interleaveOffset;
+                    var innerTranslate = slideProgress * innerOffset;
+                    swiper.slides[i].querySelector(".slide-inner").style.transform =
+                        "translate3d(" + innerTranslate + "px, 0, 0)";
+                }
+            },
+            touchStart: function () {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    swiper.slides[i].style.transition = "";
+                }
+            },
+            setTransition: function (speed) {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    swiper.slides[i].style.transition = speed + "ms";
+                    swiper.slides[i].querySelector(".slide-inner").style.transition =
+                        speed + "ms";
+                }
+            }
+        }
+    };
+
+    var swiper = new Swiper(".swiper-container", swiperOptions);
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('click', function (event) {
+                event.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        window.addEventListener('click', function () {
+            dropdowns.forEach(function (dropdown) {
+                dropdown.classList.remove('show');
+            });
+        });
+    });
+
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "_LayoutEmployeeSide";
+}
+@model ListDetailInfoViewModel
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card text-center" style="width: 40rem;height:auto;background-color:transparent; border: 1px none #96CBFF  ">
+            <div>
+                <img style="max-width: 40%; height: auto;" src="@Model.PhotoPath">
+            </div>
+            <div class="card-body" style="border-block-end: 3px solid #FF6910;">
+                <h5 class="card-title text-light"><strong>User Detail Information</strong></h5>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF ">
+                    <strong>Name: </strong> <label>
+                        @Model.Name
+                        @if (Model.SecondName != null)
+                        {
+                            @Model.SecondName
+                        }
+                       
+                    </label>
+                </li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF ">
+                    <strong>Surname: </strong> <label>
+                        @Model.Surname
+                        @if (Model.SecondSurname != null)
+                        {
+                            @Model.SecondSurname
+                        }
+                       
+                    </label>
+                </li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Birth Date: </strong> <label>@Model.BirthDate</label></li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Job Start Date: </strong> <label>@Model.StartDate</label></li>
+                @if (Model.EndDate != null && Model.EndDate < DateTime.Now)
+                {
+                    <li style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Job End Date: </strong>  <label>@Model.EndDate</label></li>
+                }
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Current Working: </strong>  <label>@Model.IsActive</label></li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Is Turkish Citizien: </strong> <label>@Model.IsTurkishCitizen</label></li>
+                @if (Model.IsTurkishCitizen == true)
+                {
+                    <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Identity No: </strong> <label>@Model.IdentityNumber</label></li>
+                }
+                @if (Model.IsTurkishCitizen != true)
+                {
+                    <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Passport No: </strong>  <label>@Model.PassportNumber</label></li>
+                }
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Company Name: </strong> <label>@ViewBag.CompanyName</label></li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Department Name: </strong> <label>@ViewBag.DepartmentName</label></li>
+                <li class="list-group-item text-light" style="background-color:transparent; border-block-end: 1px solid #96CBFF "><strong>Adress: </strong> <label>@Model.Adress</label></li>
+                </ul>
+        </div>
+    </div>
+</div>
+
